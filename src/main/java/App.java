@@ -10,29 +10,35 @@ public class App {
     staticFileLocation("/public");
     String layout = "templates/layout.vtl";
 
-    /******************************************************
-      Students: TODO: Display all restaurants on main page
-    *******************************************************/
     get("/", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("restaurants", Restaurant.all());
       model.put("template", "templates/index.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    /******************************************************
-    Students: TODO: Create page to add a new restaurant
-    *******************************************************/
-    get("/new-restaurant", (request, reponse) -> {
+    post("/", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
-      model.put("template", "templates/newrestaurant.vtl");
+      String restaurantName = request.queryParams("restaurantName");
+      String cuisineType = request.queryParams("cuisineType");
+      Cuisine newCuisine = new Cuisine(cuisineType);
+      newCuisine.save();
+      Restaurant newRestaurant = new Restaurant(restaurantName, newCuisine.getId());
+      newRestaurant.save();
+      model.put("restaurants", Restaurant.all());
+      model.put("template", "templates/index.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    /******************************************************
-    STUDENTS:
-    TODO: Create page to display information about the selected restaurant
-    TODO: Create page to display restaurants by cuisine type
-    *******************************************************/
+    get("/restaurants/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Restaurant restaurant = Restaurant.find(Integer.parseInt(request.params(":id")));
+      Cuisine cuisine = Cuisine.find(restaurant.getCuisineId());
+      model.put("restaurant", restaurant);
+      model.put("cuisine", cuisine);
+      model.put("template", "templates/newrestaurant.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
   }
 }

@@ -1,1 +1,15 @@
+<h1>Best Restaurants</h1>
+  <p>Click a restaurant to find more information</p>
+<br>
+#foreach ($restaurant in $restaurants)
+  <a href="/restaurants/$restaurant.getId()"><li>$restaurant.getName()</li></a>
+#end
 
+<form action="/" method="post">
+  <p for="restaurantName">Add a restaurant by cuisine:</p><br>
+  <label for="restaurantName">Restaurant Name:</label><br>
+  <input type="text" name="restaurantName" id="restaurantName" required><br>
+  <label for="cuisineType">Cuisine type:</label><br>
+  <input type="text" name="cuisineType" required><br><br>
+  <button type="submit" class="btn btn-info">Add Restaurant</button>
+</form>

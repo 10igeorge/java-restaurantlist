@@ -2,19 +2,20 @@ import org.sql2o.*;
 import java.util.List;
 
 public class Cuisine {
-  private int mId;
-  private String mType;
+  private int id;
+  private String type;
+
 
   public Cuisine (String type) {
-    this.mType = type;
+    this.type = type;
   }
 
   public int getId() {
-    return mId;
+    return id;
   }
 
   public String getType() {
-    return mType;
+    return type;
   }
 
   @Override
@@ -28,46 +29,61 @@ public class Cuisine {
     }
   }
 
-  //CREATE
   public void save() {
     try (Connection con = DB.sql2o.open()) {
-      /******************************************************
-        Students: TODO: Create sql query and execute update
-      *******************************************************/
+      String sql = "INSERT INTO cuisine (type) VALUES (:type)";
+      this.id = (int) con.createQuery(sql, true)
+      .addParameter("type", this.type)
+      .executeUpdate()
+      .getKey();
     }
   }
 
-  //READ
   public static List<Cuisine> all() {
+    String sql = "SELECT id, type FROM cuisine";
     try (Connection con = DB.sql2o.open()) {
-      /******************************************************
-        Students: TODO: Create sql query and execute update
-      *******************************************************/
+      return con.createQuery(sql)
+      .executeAndFetch(Cuisine.class);
     }
   }
 
-  //UPDATE
-  public void update(String newType) {
-    this.mType = newType;
+  // public void update(String newType) {
+  //   this.mType = newType;
+  //   try(Connection con = DB.sql2o.open()) {
+  //     String sql = "UPDATE cuisine SET type=:type WHERE id=:id";
+  //     try(Connection con = DB.sql2o.open()) {
+  //       con.createQuery(sql)
+  //       .addParameter("type", mType)
+  //       .executeUpdate();
+  //     }
+  //   }
+  // }
+
+  public void deleteCuisine() {
+    String sql = "DELETE FROM cuisine WHERE id=:id";
     try(Connection con = DB.sql2o.open()) {
-      /******************************************************
-        Students: TODO: Create sql query and execute update
-      *******************************************************/
+      con.createQuery(sql)
+      .addParameter("id", id)
+      .executeUpdate();
     }
   }
 
-  public void delete() {
+  public static Cuisine find(int id) {
     try(Connection con = DB.sql2o.open()) {
-      /******************************************************
-        Students: TODO: Create sql query and execute update
-      *******************************************************/
+      String sql = "SELECT * FROM cuisine where id=:id";
+      Cuisine Cuisine = con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetchFirst(Cuisine.class);
+      return Cuisine;
     }
   }
 
-  /******************************************************
-    Students:
-    TODO: Create find method
-    TODO: Create method to get restaurants
-  *******************************************************/
-
+  public List<Restaurant> getRestaurants(){
+    try(Connection con = DB.sql2o.open()){
+      String sql = "SELECT * FROM restaurants where cuisine_id=:id";
+      return con.createQuery(sql)
+      .addParameter("id", id)
+      .executeAndFetch(Restaurant.class);
+    }
+  }
 }

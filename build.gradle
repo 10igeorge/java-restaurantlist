@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-archivesBaseName = "best-restaurants"
+archivesBaseName = "restaurants"
 version = '1.0'
 mainClassName = "App"
 
