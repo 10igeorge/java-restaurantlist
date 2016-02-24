@@ -1,12 +1,18 @@
 <h1>Best Restaurants</h1>
   <p>Click a restaurant to find more information</p>
 <br>
-#foreach ($restaurant in $restaurants)
-  <a href="/restaurants/$restaurant.getId()"><li>$restaurant.getName()</li></a>
-  <form action="/delete/restaurant/$restaurant.getId()" method="post">
-  <button type="submit" id="$restaurant.getId()" name="deleteRestaurant" class="btn btn-danger">
-    Delete Restaurant</button></h4>
-  </form>
+#if ($restaurants)
+  #foreach ($restaurant in $restaurants)
+    <a href="/restaurants/$restaurant.getId()"><li>$restaurant.getName()</li></a>
+    <form action="/delete/restaurant/$restaurant.getId()" method="post">
+    <button type="submit" id="$restaurant.getId()" name="deleteRestaurant" class="btn btn-danger">
+      Delete Restaurant</button></h4>
+    </form>
+  #end
+#else
+  <p>
+    You need to add a restaurant
+  </p>
 #end
 
 <br><br>
