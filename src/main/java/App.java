@@ -19,14 +19,23 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    post("/update", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      String newCuisine = request.queryParams("newCuisine");
+      Cuisine cuisine = new Cuisine(newCuisine);
+      cuisine.save();
+      model.put("cuisines", Cuisine.all());
+      model.put("cuisine", cuisine);
+      model.put("template", "templates/index.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
     post("/", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       String restaurantName = request.queryParams("restaurantName");
-      String cuisineType = request.queryParams("cuisineType");
       String info = request.queryParams("info");
-      Cuisine newCuisine = new Cuisine(cuisineType);
-      newCuisine.save();
-      Restaurant newRestaurant = new Restaurant(restaurantName, newCuisine.getId(), info);
+      Cuisine cuisine = Cuisine.find(Integer.parseInt(request.queryParams("cuisineId")));
+      Restaurant newRestaurant = new Restaurant(restaurantName, cuisine.getId(), info);
       newRestaurant.save();
       model.put("cuisines", Cuisine.all());
       model.put("restaurants", Restaurant.all());
@@ -34,9 +43,9 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("/cuisine", (request, response) -> {
+    get("/cuisine/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
-      Cuisine cuisine = Cuisine.find(Integer.parseInt(request.queryParams("cuisineId")));
+      Cuisine cuisine = Cuisine.find(Integer.parseInt(request.params(":id")));
       List<Restaurant> restaurants = cuisine.getRestaurants();
       model.put("restaurants", restaurants);
       model.put("cuisine", cuisine);
