@@ -14,29 +14,29 @@ public class RestaurantTest {
 
   @Test
   public void equals_returnsTrueIfDescriptionsAretheSame() {
-    Restaurant firstRestaurant = new Restaurant("Chinese Restaurant 1", 1);
-    Restaurant secondRestaurant = new Restaurant("Chinese Restaurant 1", 1);
+    Restaurant firstRestaurant = new Restaurant("Chinese Restaurant 1", 1, "info");
+    Restaurant secondRestaurant = new Restaurant("Chinese Restaurant 1", 1, "info");
     assertTrue(firstRestaurant.equals(secondRestaurant));
   }
 
   @Test
   public void save_returnsTrueIfDescriptionsAretheSame() {
-    Restaurant myRestaurant = new Restaurant("Chinese Restaurant 1", 1);
+    Restaurant myRestaurant = new Restaurant("Chinese Restaurant 1", 1, "info");
     myRestaurant.save();
     assertTrue(Restaurant.all().get(0).equals(myRestaurant));
   }
 
   @Test
   public void save_assignsIdToObject() {
-    Restaurant myRestaurant = new Restaurant("Chinese Restaurant 1", 1);
+    Restaurant myRestaurant = new Restaurant("Chinese Restaurant 1", 1, "info");
     myRestaurant.save();
     Restaurant savedRestaurant = Restaurant.all().get(0);
     assertEquals(myRestaurant.getId(), savedRestaurant.getId());
   }
 
   @Test
-  public void find_findsTaskInDatabase_true() {
-    Restaurant myRestaurant = new Restaurant("Chinese Restaurant 5", 5);
+  public void find_findsRestaurantInDatabase_true() {
+    Restaurant myRestaurant = new Restaurant("Chinese Restaurant 5", 5, "info");
     myRestaurant.save();
     Restaurant savedRestaurant = Restaurant.find(myRestaurant.getId());
     assertTrue(myRestaurant.equals(savedRestaurant));
@@ -44,14 +44,14 @@ public class RestaurantTest {
 
   @Test
   public void all_savesIntoDatabase_true() {
-    Restaurant myRestaurant = new Restaurant("Mow the lawn", 1);
+    Restaurant myRestaurant = new Restaurant("Mow the lawn", 1, "info");
     myRestaurant.save();
     assertEquals(Restaurant.all().get(0).getName(), "Mow the lawn");
   }
 
   @Test
   public void find_findsAnotherRestaurantInDatabase_true() {
-    Restaurant myRestaurant = new Restaurant("Mow the lawn", 1);
+    Restaurant myRestaurant = new Restaurant("Mow the lawn", 1, "info");
     myRestaurant.save();
     Restaurant savedRestaurant = Restaurant.find(myRestaurant.getId());
     assertEquals(savedRestaurant.getName(), "Mow the lawn");
@@ -61,10 +61,19 @@ public class RestaurantTest {
   public void save_savesCuisineIdIntoDB_true() {
     Cuisine myCuisine = new Cuisine("Household chores");
     myCuisine.save();
-    Restaurant myRestaurant = new Restaurant("Mow the lawn", myCuisine.getId());
+    Restaurant myRestaurant = new Restaurant("Mow the lawn", myCuisine.getId(), "info");
     myRestaurant.save();
     Restaurant savedRestaurant = Restaurant.find(myRestaurant.getId());
     assertEquals(savedRestaurant.getCuisineId(), myCuisine.getId());
+  }
+
+  @Test
+  public void getInfo_returnsInfoAboutRestaurant_true(){
+    Cuisine myCuisine = new Cuisine("Household chores");
+    myCuisine.save();
+    Restaurant myRestaurant = new Restaurant("Mow the lawn", myCuisine.getId(), "info");
+    myRestaurant.save();
+    assertTrue(myRestaurant.getInfo().equals("info"));
   }
 
 }

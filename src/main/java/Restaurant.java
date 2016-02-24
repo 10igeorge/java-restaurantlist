@@ -5,10 +5,12 @@ public class Restaurant {
   private int id;
   private String name;
   private int cuisine_id;
+  private String info;
 
-  public Restaurant (String name, int cuisine_id) {
+  public Restaurant (String name, int cuisine_id, String info) {
     this.name = name;
     this.cuisine_id = cuisine_id;
+    this.info = info;
   }
 
   public int getId() {
@@ -21,6 +23,10 @@ public class Restaurant {
 
   public String getName() {
     return name;
+  }
+
+  public String getInfo(){
+    return info;
   }
 
   @Override
@@ -36,17 +42,18 @@ public class Restaurant {
 
   public void save() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO restaurants(name, cuisine_id) VALUES (:name, :cuisine_id)";
+      String sql = "INSERT INTO restaurants(name, cuisine_id, info) VALUES (:name, :cuisine_id, :info)";
       this.id = (int) con.createQuery(sql, true)
       .addParameter("name", name)
       .addParameter("cuisine_id", cuisine_id)
+      .addParameter("info", info)
       .executeUpdate()
       .getKey();
     }
   }
 
   public static List<Restaurant> all() {
-    String sql = "SELECT id, name, cuisine_id FROM restaurants";
+    String sql = "SELECT id, name, cuisine_id, info FROM restaurants";
     try (Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Restaurant.class);
     }
@@ -73,7 +80,7 @@ public class Restaurant {
     }
   }
 
-  public void delete() {
+  public static void delete(int id) {
     String sql = "DELETE FROM restaurants WHERE id=:id";
     try(Connection con = DB.sql2o.open()){
       con.createQuery(sql)
@@ -81,17 +88,4 @@ public class Restaurant {
         .executeUpdate();
     }
   }
-
-  // public Cuisine getType(){
-  //   try(Connection con = DB.sql2o.open()){
-  //     String sql = "SELECT * FROM cuisine WHERE cuisine_id=:cuisine.id";
-  //     return con.createQuery(sql)
-  //       .addParameter("cuisine.id", cuisine_id)
-  //       .executeAndFetch(Cuisine.class);
-  //   }
-  // }
-
-  //   TODO: Create method to get cuisine type
-  // *******************************************************/
-
 }

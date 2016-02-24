@@ -45,9 +45,9 @@ public class CuisineTest {
     public void getRestaurants_retrievesAllRestaurantsFromDatabase_restaurantsList() {
       Cuisine myCuisine = new Cuisine("Chinese");
       myCuisine.save();
-      Restaurant firstRestaurant = new Restaurant("Chinese Restaurant 1", myCuisine.getId());
+      Restaurant firstRestaurant = new Restaurant("Chinese Restaurant 1", myCuisine.getId(), "info");
       firstRestaurant.save();
-      Restaurant secondRestaurant = new Restaurant("Chinese Restaurant 2", myCuisine.getId());
+      Restaurant secondRestaurant = new Restaurant("Chinese Restaurant 2", myCuisine.getId(), "info");
       secondRestaurant.save();
       Restaurant[] restaurants = new Restaurant[] { firstRestaurant, secondRestaurant };
       assertTrue(myCuisine.getRestaurants().containsAll(Arrays.asList(restaurants)));

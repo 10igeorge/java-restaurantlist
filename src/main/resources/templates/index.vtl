@@ -3,13 +3,41 @@
 <br>
 #foreach ($restaurant in $restaurants)
   <a href="/restaurants/$restaurant.getId()"><li>$restaurant.getName()</li></a>
+  <form action="/delete/restaurant/$restaurant.getId()" method="post">
+  <button type="submit" id="$restaurant.getId()" name="deleteRestaurant" class="btn btn-danger">
+    Delete Restaurant</button></h4>
+  </form>
 #end
+<!-- <form action="/home" method="post">
+  <label for="newCuisine">Add a cuisine: </label><br>
+  <input type="text" name="newCuisine"><br><br>
+  <button type="submit" class="btn btn-warning">Add</button>
+</form> -->
 
 <form action="/" method="post">
   <p for="restaurantName">Add a restaurant by cuisine:</p><br>
   <label for="restaurantName">Restaurant Name:</label><br>
   <input type="text" name="restaurantName" id="restaurantName" required><br>
   <label for="cuisineType">Cuisine type:</label><br>
-  <input type="text" name="cuisineType" required><br><br>
+  <select id='cuisineId' name='cuisineId' type='text'>
+  #foreach($cuisine in $cuisines)
+    <option value="$cuisine.getId()">$cuisine.getType()</option>
+  #end
+  </select><br><br>
+  <label for="info">Information about restaurant:</label><br>
+  <textarea name="info" rows="5" cols="25"></textarea><br>
   <button type="submit" class="btn btn-info">Add Restaurant</button>
 </form>
+<!-- #if ($cuisines) -->
+  <form action="/cuisine" method="get">
+      <label for="cuisineId">Search restaurants by cuisine:</label><br>
+      <select id='cuisineId' name='cuisineId' type='text'>
+      #foreach($cuisine in $cuisines)
+        <option value="$cuisine.getId()">$cuisine.getType()</option>
+      #end
+      </select><br><br>
+    <button type="submit" class="btn btn-success">Search</button>
+  </form>
+<!-- #else
+  <p> </p>
+#end -->
