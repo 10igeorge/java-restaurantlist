@@ -38,19 +38,8 @@
   <button type="submit" class="btn btn-info">Add Restaurant</button>
 </form>
 
+<h3>View List of Restaurants that serve a specific cuisine type by clicking the cuisine type below: </h3>
+
 #foreach ($cuisine in $cuisines)
   <a href="/cuisine/$cuisine.getId()"><li>$cuisine.getType()</li></a>
 #end
-<!-- #if ($cuisines) -->
-  <!-- <form action="/cuisine" method="get">
-      <label for="cuisineId">Search restaurants by cuisine:</label><br>
-      <select id='cuisineId' name='cuisineId' type='text'>
-      #foreach($cuisine in $cuisines)
-        <option value="$cuisine.getId()">$cuisine.getType()</option>
-      #end
-      </select><br><br>
-    <button type="submit" class="btn btn-success">Search</button>
-  </form> -->
-<!-- #else
-  <p> </p>
-#end -->
