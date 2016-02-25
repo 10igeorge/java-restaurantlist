@@ -24,6 +24,7 @@ public class App {
       String newCuisine = request.queryParams("newCuisine");
       Cuisine cuisine = new Cuisine(newCuisine);
       cuisine.save();
+      model.put("restaurants", Restaurant.all());
       model.put("cuisines", Cuisine.all());
       model.put("cuisine", cuisine);
       model.put("template", "templates/index.vtl");
@@ -67,7 +68,18 @@ public class App {
       HashMap<String, Object> model = new HashMap<String, Object>();
       int id = Integer.parseInt(request.params(":id"));
       Restaurant.delete(id);
+      model.put("cuisines", Cuisine.all());
       model.put("restaurants", Restaurant.all());
+      model.put("template", "templates/index.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/delete/cuisine/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      int id = Integer.parseInt(request.params(":id"));
+      Cuisine.deleteCuisine(id);
+      model.put("restaurants", Restaurant.all());
+      model.put("cuisines", Cuisine.all());
       model.put("template", "templates/index.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());

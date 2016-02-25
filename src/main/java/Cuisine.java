@@ -59,7 +59,7 @@ public class Cuisine {
   //   }
   // }
 
-  public void deleteCuisine() {
+  public static void deleteCuisine(int id) {
     String sql = "DELETE FROM cuisine WHERE id=:id";
     try(Connection con = DB.sql2o.open()) {
       con.createQuery(sql)
