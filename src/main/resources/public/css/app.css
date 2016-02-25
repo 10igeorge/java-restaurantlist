@@ -1,0 +1,13 @@
+body {
+  background-image: url(/img/restaurant_icons.png);
+}
+
+.deleteButton {
+  border-radius: 100%;
+  background-color: transparent;
+  float: right:
+}
+
+#listItem {
+  font-size: 18px;
+}

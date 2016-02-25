@@ -1,50 +1,66 @@
-<h1>Best Restaurants</h1>
-  <p>Click a restaurant to find more information</p>
-#if ($restaurants.size() != 0)
-    #foreach ($restaurant in $restaurants)
-      <a href="/restaurants/$restaurant.getId()"><li>$restaurant.getName()</li></a>
-      <form action="/delete/restaurant/$restaurant.getId()" method="post">
-      <button type="submit" id="$restaurant.getId()" name="deleteRestaurant" class="btn btn-danger">
-        Delete Restaurant</button></h4>
+<div class="jumbotron">
+  <h1>Best Restaurants</h1>
+  <p>Search by cuisine or restaurant name</p>
+</div>
+
+<br>
+
+<div class="row">
+  <div class="col-md-6">
+    <h3>Cuisines</h3>
+    <p>Search for restaurants by cuisine type</p>
+    #if ($cuisines != 0)
+      #foreach ($cuisine in $cuisines)
+        <form action="/delete/cuisine/$cuisine.getId()" method="post">
+        <a id="listItem" href="/cuisine/$cuisine.getId()">$cuisine.getType()</a>
+        <button type="submit" id="$cuisine.getId()" name="deleteCuisine" class="deleteButton btn btn-xs">
+        x</button>
       </form>
+      #end
+    #else
+      <p></p>
     #end
-#else
-  <p>There are currently no restaurants listed</p>
-#end
 
-<br><br>
-<form action="/update" method="post">
-  <label for="newCuisine">Add a cuisine:</label><br>
-  <input type="text" name="newCuisine"><br>
-  <button type="submit" class="btn btn-info">Add</button>
-</form>
-<br><br>
+    <br><br>
+    <form action="/update" method="post">
+      <label for="newCuisine">Add a cuisine:</label><br>
+      <input type="text" name="newCuisine"><br><br>
+      <button type="submit" class="btn btn-success">Add</button>
+    </form>
+    <br><br>
+  </div>
 
-#if($cuisines.size() != 0)
-  <form action="/" method="post">
-    <p for="restaurantName">Add a restaurant by cuisine:</p><br>
-    <label for="restaurantName">Restaurant Name:</label><br>
-      <input type="text" name="restaurantName" id="restaurantName" required><br>
-    <label for="cuisineType">Cuisine type:</label><br>
-      <select id='cuisineId' name='cuisineId' type='text'>
-        #foreach($cuisine in $cuisines)
-          <option value="$cuisine.getId()">$cuisine.getType()</option>
+  <div class="col-md-6">
+    <h3>Restaurants</h3>
+    <p>Click on a restaurant to find more information</p>
+    #if ($restaurants.size() != 0)
+        #foreach ($restaurant in $restaurants)
+          <form action="/delete/restaurant/$restaurant.getId()" method="post">
+          <a id="listItem" href="/restaurants/$restaurant.getId()">$restaurant.getName()</a>
+          <button type="submit" id="$restaurant.getId()" name="deleteRestaurant" class="deleteButton btn btn-xs">
+          x</button>
+          </form>
         #end
-      </select><br>
-    <label for="info">Information about restaurant:</label><br>
-      <textarea name="info" rows="5" cols="25"></textarea><br><br>
-    <button type="submit" class="btn btn-info">Add Restaurant</button>
-  </form>
-#else
-  <p>You must add a cuisine type before you add a restaurant.</p>
-#end
+    #else
+      <p>There are currently no restaurants listed</p>
+    #end
 
-<h3>View List of Restaurants that serve a specific cuisine type by clicking the cuisine type below: </h3>
-
-#foreach ($cuisine in $cuisines)
-  <a href="/cuisine/$cuisine.getId()"><li>$cuisine.getType()</li></a>
-  <form action="/delete/cuisine/$cuisine.getId()" method="post">
-  <button type="submit" id="$cuisine.getId()" name="deleteCuisine" class="btn btn-danger">
-    Delete Cuisine</button></h4>
-  </form>
-#end
+    #if($cuisines.size() != 0)
+      <form action="/" method="post">
+        <label for="restaurantName">Restaurant Name:</label><br>
+          <input type="text" name="restaurantName" id="restaurantName" required><br>
+        <label for="cuisineType">Cuisine type:</label><br>
+          <select id='cuisineId' name='cuisineId' type='text'>
+            #foreach($cuisine in $cuisines)
+              <option value="$cuisine.getId()">$cuisine.getType()</option>
+            #end
+          </select><br>
+        <label for="info">Information about restaurant:</label><br>
+          <textarea name="info" rows="5" cols="25"></textarea><br><br>
+        <button type="submit" class="btn btn-success">Add Restaurant</button>
+      </form>
+    #else
+      <p></p>
+    #end
+  </div>
+</div>
