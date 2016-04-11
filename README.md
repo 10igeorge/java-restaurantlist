@@ -2,18 +2,18 @@
 
 ##### Epicodus exercise using Java and Postgres, 01.21.2016
 
-##### Author Names
+##### Isabelle George and Ryan King
 
 ## Description
-Add a description here
+Java web app to list best restaurants in town
 
 ## Setup
 
 Clone this repository:
 ```
 $ cd ~/Desktop
-$ git clone https://github.com/LINK_TO_YOUR_REPO
-$ cd best-restaurants
+$ git clone https://github.com/java-restaurantlist
+$ cd java-restaurantlist
 ```
 
 Open terminal and run Postgres:
@@ -24,7 +24,7 @@ $ postgres
 Open a new tab in terminal and create the `best-restaurants` database:
 ```
 $ psql
-$ CREATE DATABASE best_restaurants;
+$ CREATE DATABASE java-restaurantlist;
 $ psql best_restaurants < best_restaurants.sql
 ```
 
@@ -35,7 +35,7 @@ $ gradle run
 
 ## Legal
 
-Copyright (c) 2015 Author names go here
+Copyright (c) 2016 Isabelle George and Ryan King
 
 This software is licensed under the MIT license.
 
